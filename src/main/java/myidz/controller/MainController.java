@@ -10,7 +10,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.collections.ObservableList;
 
 import javafx.collections.FXCollections;
+import javafx.util.StringConverter;
+
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -167,12 +170,15 @@ public class MainController {
         try {
 
             Statement statement = connecttion.createStatement();
-
-           // statement.execute("INSERT INTO session(Data_start,time_start,Hall_id,id_spectacle) VALUE (ChoiseHall.getValue().tos) ");
-
+            String str = ChoiseHall.getValue().getKey();
+            String pattern = "yyyy-MM-dd";
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+           int done = statement.executeUpdate("INSERT INTO session(Data_start,time_start,Hall_id,id_spectacle) VALUE ('"+dateFormatter.format(sessionaddDate.getValue())+"','"+sessionaddTime.getText()+"','"+ChoiseHall.getValue().getKey()+"','"+ChoiseName.getValue().getKey()+"');");
+       System.out.print(done);
         }catch (SQLException e){
             e.printStackTrace();
         }
+        loadsessionTable();
     }
 
     public  void ttt(){
