@@ -7,12 +7,13 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="508.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="myidz.controller.MainController">
     <children>
-      <AnchorPane fx:id="loginPanel" prefHeight="508.0" prefWidth="585.0" visible="false">
+      <AnchorPane fx:id="loginPanel" prefHeight="508.0" prefWidth="585.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
               <Label layoutX="191.0" layoutY="181.0" text="Login:" />
               <Label layoutX="191.0" layoutY="240.0" text="Password:" />
@@ -21,27 +22,33 @@
               <Button fx:id="btnlogin" layoutX="191.0" layoutY="300.0" mnemonicParsing="false" onAction="#btlloginEvent" prefHeight="26.0" prefWidth="200.0" text="Log In" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="contentPanel" prefHeight="508.0" prefWidth="585.0">
+      <AnchorPane fx:id="contentPanel" prefHeight="508.0" prefWidth="585.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <TabPane layoutX="10.0" layoutY="10.0" prefHeight="489.0" prefWidth="565.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <tabs>
-                <Tab text="Untitled Tab 1">
+                <Tab text="Расписание">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="tabls" editable="true" layoutX="10.0" layoutY="13.0" prefHeight="428.0" prefWidth="311.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="tabls" editable="true" layoutX="10.0" layoutY="27.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn fx:id="IDcol" prefWidth="75.0" text="ID" />
-                                  <TableColumn prefWidth="75.0" text="Name" />
+                                  <TableColumn fx:id="IDcol" prefWidth="36.0" text="ID" />
+                                  <TableColumn fx:id="nameCol" prefWidth="152.0" text="Название" />
+                                    <TableColumn fx:id="timestart" prefWidth="85.0" text="Время" />
+                                    <TableColumn fx:id="datastart" prefWidth="108.0" text="Дата" />
+                                    <TableColumn fx:id="hallname" prefWidth="193.0" text="Зал" />
                                 </columns>
                               </TableView>
-                              <Button fx:id="btntest" layoutX="48.0" layoutY="89.0" mnemonicParsing="false" onAction="#ttt" text="Button" />
                            </children></AnchorPane>
                   </content>
                 </Tab>
                 <Tab text="Untitled Tab 2">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextArea fx:id="debagtext" layoutX="128.0" layoutY="14.0" prefHeight="421.0" prefWidth="411.0" wrapText="true" />
+                              <Button fx:id="btntest" layoutX="13.0" layoutY="58.0" mnemonicParsing="false" onAction="#ttt" prefHeight="16.0" prefWidth="62.0" text="Button" />
+                           </children></AnchorPane>
                   </content>
                 </Tab>
               </tabs>
