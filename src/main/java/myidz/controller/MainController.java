@@ -39,10 +39,11 @@ public class MainController {
         PassText.setText("pass");
 
     }
+
     Connection connecttion;
     public void btlloginEvent(){
-        LoginText.setText("denis");
-        PassText.setText("pass");
+        //LoginText.setText("denis");
+     //   PassText.setText("pass");
 
 
 
@@ -63,7 +64,8 @@ public class MainController {
             btnlogin.setText("Не удалось");
             System.out.print("Не удаломь загрузить драйвер");
         }
-        ttt();
+        loadsessionTable();
+        loadsession();
     }
 
 
@@ -79,7 +81,7 @@ public class MainController {
     TableColumn<Sessions,String> datastart;
     @FXML
     TableColumn<Sessions,String> hallname;
-    public void ttt(){
+    public void loadsessionTable(){
         ObservableList<Sessions> sesionList = FXCollections.observableArrayList();
         IDcol.setCellValueFactory(new PropertyValueFactory<Sessions, Integer>("ID"));
         nameCol.setCellValueFactory(new PropertyValueFactory<Sessions, String>("Name"));
@@ -91,7 +93,7 @@ public class MainController {
         ResultSet res=  statement.executeQuery("SELECT `session`.id, spectacle.`name`,Data_start,time_start,Hall.name  FROM session INNER JOIN spectacle on session.id_spectacle = spectacle.id inner JOIN Hall on `session`.Hall_id = Hall.id ORDER BY Data_start,time_start;");
         while (res.next())
         {
-            debagtext.setText(debagtext.getText()+res.getString(2)+"\n");
+           // debagtext.setText(debagtext.getText()+res.getString(2)+"\n");
             sesionList.add(new Sessions(res.getInt(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5)));
         }
         }catch (SQLException e){
@@ -147,5 +149,69 @@ public class MainController {
 
         public void setHallname(String hall)
         {this.Hallname=hall;}
+    }
+    @FXML
+    ChoiceBox<KeyValuePair>   ChoiseHall;
+    @FXML
+    ChoiceBox<KeyValuePair>   ChoiseName;
+    @FXML
+    DatePicker sessionaddDate;
+    @FXML
+    TextField sessionaddTime;
+    public void add_session(){
+        if (ChoiseHall.getValue()== null ||  ChoiseName.getValue()== null || sessionaddDate.getValue() == null || sessionaddTime.getText().length()==0)
+        {
+            debagtext.setText("Пусто");
+            return;
+        }
+        try {
+
+            Statement statement = connecttion.createStatement();
+
+           // statement.execute("INSERT INTO session(Data_start,time_start,Hall_id,id_spectacle) VALUE (ChoiseHall.getValue().tos) ");
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public  void ttt(){
+
+    }
+    public void loadsession()
+    {
+
+        try {
+            ChoiseHall.getItems().clear();
+            ChoiseName.getItems().clear();
+            Statement statement = connecttion.createStatement();
+            ResultSet res=  statement.executeQuery("SELECT * from  Hall");
+            while (res.next())
+            {
+                ChoiseHall.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
+            }
+            Statement statement1 = connecttion.createStatement();
+            //connecttion.close();
+            ResultSet res1=  statement1.executeQuery("SELECT id,name from  spectacle");
+            while (res1.next())
+            {
+                ChoiseName.getItems().add(new KeyValuePair(res1.getString(1),res1.getString(2)));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+    public class KeyValuePair {
+        private final String key;
+        private final String name;
+        public KeyValuePair(String key, String name) {
+            this.key = key;
+            this.name = name;
+        }
+
+        public String getKey()   {    return key;    }
+
+        public String toString() {    return name;  }
     }
 }
