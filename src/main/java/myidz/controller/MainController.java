@@ -14,6 +14,7 @@ import javafx.util.StringConverter;
 
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
+//import ;
 
 
 /**
@@ -53,7 +54,7 @@ public class MainController {
         try{
             Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
-            connecttion = DriverManager.getConnection("jdbc:mysql://localhost:3306/myticket?autoReconnect=true&useSSL=false",LoginText.getText(), PassText.getText());
+            connecttion = DriverManager.getConnection("jdbc:mysql://localhost:3306/myticket?autoReconnect=true&useSSL=false&database?useUnicode=true&characterEncoding=utf8",LoginText.getText(), PassText.getText());
             if (!connecttion.isClosed()){
                 System.out.print("Все ок");
 
@@ -155,6 +156,7 @@ public class MainController {
     }
     @FXML
     ChoiceBox<KeyValuePair>   ChoiseHall;
+
     @FXML
     ChoiceBox<KeyValuePair>   ChoiseName;
     @FXML
@@ -162,7 +164,7 @@ public class MainController {
     @FXML
     TextField sessionaddTime;
     public void add_session(){
-        if (ChoiseHall.getValue()== null ||  ChoiseName.getValue()== null || sessionaddDate.getValue() == null || sessionaddTime.getText().length()==0)
+        if (ChoiseHall.getValue()== null |  ChoiseName.getValue()== null | sessionaddDate.getValue() == null | sessionaddTime.getText().length()==0)
         {
             debagtext.setText("Пусто");
             return;
@@ -172,8 +174,11 @@ public class MainController {
             Statement statement = connecttion.createStatement();
             String str = ChoiseHall.getValue().getKey();
             String pattern = "yyyy-MM-dd";
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-           int done = statement.executeUpdate("INSERT INTO session(Data_start,time_start,Hall_id,id_spectacle) VALUE ('"+dateFormatter.format(sessionaddDate.getValue())+"','"+sessionaddTime.getText()+"','"+ChoiseHall.getValue().getKey()+"','"+ChoiseName.getValue().getKey()+"');");
+
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+
+
+            int done = statement.executeUpdate("INSERT INTO session(Data_start,time_start,Hall_id,id_spectacle) VALUE ('"+dateFormatter.format(sessionaddDate.getValue())+"','"+sessionaddTime.getText()+"','"+ChoiseHall.getValue().getKey()+"','"+ChoiseName.getValue().getKey()+"');");
        System.out.print(done);
         }catch (SQLException e){
             e.printStackTrace();
@@ -181,20 +186,54 @@ public class MainController {
         loadsessionTable();
     }
 
+
+    @FXML
+    TextField DeleHall;
+    public void DellHallAction()
+    {
+
+        {
+            try {
+                Statement statement = connecttion.createStatement();
+                if(DeleHall.getText().length()!=0 & ChoiceDellHall.getValue()== null) {
+                    statement.executeUpdate("Delete from Hall where id = '" + DeleHall.getText() + "' ");
+                }else
+                    if (ChoiceDellHall.getValue()!= null)
+                    {
+                        statement.executeUpdate("Delete from Hall where id = '" + ChoiceDellHall.getValue().getKey() + "' ");
+
+                    }
+                    else {return;}
+                System.out.print(done);
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            loadsessionTable();
+        }
+    }
+
+
+
+
     public  void ttt(){
 
     }
+    @FXML
+    ChoiceBox<KeyValuePair> ChoiceDellHall;
     public void loadsession()
     {
 
         try {
             ChoiseHall.getItems().clear();
+            ChoiceDellHall.getItems().clear();
+
             ChoiseName.getItems().clear();
             Statement statement = connecttion.createStatement();
             ResultSet res=  statement.executeQuery("SELECT * from  Hall");
             while (res.next())
             {
                 ChoiseHall.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
+           //     ChoiseHall1.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
             }
             Statement statement1 = connecttion.createStatement();
             //connecttion.close();
@@ -203,11 +242,63 @@ public class MainController {
             {
                 ChoiseName.getItems().add(new KeyValuePair(res1.getString(1),res1.getString(2)));
             }
+            Statement statement2 = connecttion.createStatement();
+            ResultSet res2=  statement2.executeQuery("SELECT * from  Hall");
+            while (res2.next())
+            {
+                ChoiceDellHall.getItems().add(new KeyValuePair(res2.getString(1),res2.getString(2)));
+                //     ChoiseHall1.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
+            }
         }catch (SQLException e){
             e.printStackTrace();
         }
 
     }
+    @FXML
+    TextField AddHallName;
+    @FXML
+    TextField HallROW;
+    @FXML
+    TextField HallSpace;
+    public void AddHallandSpace()
+    {
+        if (AddHallName.getText().length()==0|HallROW.getText().length()==0|HallSpace.getText().length()==0)
+        {
+            debagtext.setText("Пусто");
+            return;
+        }
+        try {
+
+            Statement statement = connecttion.createStatement();
+            int done = statement.executeUpdate("INSERT INTO Hall(name) VALUE ('"+AddHallName.getText()+"');");
+            System.out.print(done);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        for(int i = 1;i<=Integer.parseInt(HallROW.getText());i++){
+            for(int j = 1;j<=Integer.parseInt(HallSpace.getText());j++){
+                try {
+
+                    Statement statement = connecttion.createStatement();
+                    ResultSet res1=  statement.executeQuery("SELECT id,name from  Hall where name like'"+ AddHallName.getText()+"'");
+                    res1.next();
+                    String idHall = res1.getString(1);
+                    int done = statement.executeUpdate("INSERT INTO HallandSpace(Hall, row, space) VALUE ('"+idHall+"','"+i+"','"+j+"');");
+                    System.out.print(done);
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        loadsessionTable();
+        loadsession();
+    }
+
+
+
+
+
     public class KeyValuePair {
         private final String key;
         private final String name;

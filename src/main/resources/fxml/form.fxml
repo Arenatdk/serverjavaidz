@@ -9,9 +9,9 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="myidz.controller.MainController">
     <children>
@@ -41,20 +41,27 @@
                                     <TableColumn fx:id="hallname" prefWidth="193.0" text="Зал" />
                                 </columns>
                               </TableView>
-                              <ChoiceBox fx:id="ChoiseName" layoutX="14.0" layoutY="491.0" prefWidth="150.0" />
-                              <DatePicker fx:id="sessionaddDate" layoutX="268.0" layoutY="491.0" prefHeight="26.0" prefWidth="117.0" promptText="Дата" />
-                              <TextField fx:id="sessionaddTime" layoutX="175.0" layoutY="491.0" prefHeight="26.0" prefWidth="88.0" promptText="Время" text="16:20" />
-                              <ChoiceBox fx:id="ChoiseHall" layoutX="393.0" layoutY="491.0" prefWidth="150.0" />
-                              <Button layoutX="549.0" layoutY="491.0" mnemonicParsing="false" onAction="#add_session" text="Добавить" />
+                              <ChoiceBox fx:id="ChoiseName" layoutX="14.0" layoutY="491.0" prefWidth="150.0" AnchorPane.bottomAnchor="14.0" />
+                              <DatePicker fx:id="sessionaddDate" layoutX="268.0" layoutY="491.0" prefHeight="26.0" prefWidth="117.0" promptText="Дата" AnchorPane.bottomAnchor="14.0" />
+                              <TextField fx:id="sessionaddTime" layoutX="175.0" layoutY="491.0" prefHeight="26.0" prefWidth="88.0" promptText="Время" text="16:20" AnchorPane.bottomAnchor="14.0" />
+                              <ChoiceBox fx:id="ChoiseHall" layoutX="393.0" layoutY="491.0" prefWidth="150.0" AnchorPane.bottomAnchor="14.0" />
+                              <Button layoutX="549.0" layoutY="491.0" mnemonicParsing="false" onAction="#add_session" text="Добавить" AnchorPane.bottomAnchor="14.0" />
                            </children></AnchorPane>
                   </content>
                 </Tab>
-                <Tab text="Untitled Tab 2">
+                <Tab text="Ряды и Залы">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextArea fx:id="debagtext" layoutX="128.0" layoutY="14.0" prefHeight="421.0" prefWidth="411.0" wrapText="true" />
-                              <Button fx:id="btntest" layoutX="13.0" layoutY="58.0" mnemonicParsing="false" onAction="#ttt" prefHeight="16.0" prefWidth="62.0" text="Button" />
+                              <Button layoutX="526.0" layoutY="80.0" mnemonicParsing="false" onAction="#AddHallandSpace" text="Добавить" />
+                              <TextField fx:id="HallROW" layoutX="307.0" layoutY="39.0" promptText="Количество рядов" />
+                              <TextField fx:id="HallSpace" layoutX="307.0" layoutY="80.0" promptText="Количество мест" />
+                              <TextField fx:id="AddHallName" layoutX="27.0" layoutY="46.0" prefHeight="26.0" prefWidth="242.0" promptText="Название зала" />
+                              <Text layoutX="27.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Добавить" />
+                              <Text layoutX="31.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Удалить" />
+                              <TextField fx:id="DeleHall" layoutX="27.0" layoutY="325.0" prefHeight="26.0" prefWidth="200.0" promptText="Удалить по ID" />
+                              <ChoiceBox fx:id="ChoiceDellHall" layoutX="252.0" layoutY="325.0" prefHeight="26.0" prefWidth="291.0" />
+                              <Button layoutX="470.0" layoutY="394.0" mnemonicParsing="false" onAction="#DellHall" prefHeight="26.0" prefWidth="169.0" text="Удалить зал" />
                            </children></AnchorPane>
                   </content>
                 </Tab>
