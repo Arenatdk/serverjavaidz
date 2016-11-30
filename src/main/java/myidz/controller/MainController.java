@@ -33,8 +33,8 @@ public class MainController {
 
      @FXML
     AnchorPane  contentPanel;
-     @FXML
-     TextArea debagtext;
+  //   @FXML
+  //   TextArea debagtext;
     @FXML
     public void initialize(){
         contentPanel.setVisible(false);
@@ -70,6 +70,7 @@ public class MainController {
         }
         loadsessionTable();
         loadsession();
+        LoadSpectacle();
     }
 
 
@@ -104,6 +105,87 @@ public class MainController {
             e.printStackTrace();
         }
         tabls.setItems(sesionList);
+    }
+
+    @FXML
+    TableView<Spectacle> SpectacleTable;
+    @FXML
+    TableColumn<Spectacle,Integer> SpectacleID;
+    @FXML
+    TableColumn<Spectacle,String> SpectacleName;
+    @FXML
+    TableColumn<Spectacle,String> SpectacleGenre;
+    @FXML
+    TableColumn<Spectacle,String> SpectacleLength;
+
+
+
+    public void LoadSpectacle()
+    {
+        ObservableList<Spectacle> spectacleList = FXCollections.observableArrayList();
+        SpectacleID.setCellValueFactory(new PropertyValueFactory<Spectacle, Integer>("ID"));
+        SpectacleName.setCellValueFactory(new PropertyValueFactory<Spectacle, String>("Name"));
+        SpectacleGenre.setCellValueFactory(new PropertyValueFactory<Spectacle, String>("Genre"));
+        SpectacleLength.setCellValueFactory(new PropertyValueFactory<Spectacle, String>("Length"));
+        try {
+            Statement statement = connecttion.createStatement();
+            ResultSet res=  statement.executeQuery("SELECT *  FROM spectacle");
+            while (res.next())
+            {
+                // debagtext.setText(debagtext.getText()+res.getString(2)+"\n");
+                spectacleList.add(new Spectacle(res.getInt(1),res.getString(2),res.getString(3),res.getString(4)));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        SpectacleTable.setItems(spectacleList);
+    }
+    public class Spectacle{
+        int ID;
+        String Name;
+        String Genre;
+        String Length;
+
+        public Spectacle(int id, String name, String genre, String length)
+        {
+            this.ID = id;
+            this.Name = name;
+            this.Genre = genre;
+            this.Length = length;
+
+        }
+        public Spectacle()
+        {}
+        public int getID(){
+            return ID;
+        }
+        public void setID(int id)
+        {
+            this.ID= id;
+        }
+
+        public String getName(){
+            return Name;
+        }
+        public void setName(String name)
+        {
+            this.Name= name;
+        }
+        public String getGenre(){
+            return Genre;
+        }
+        public void setGenre(String genre)
+        {
+            this.Genre= genre;
+        }
+        public String getLength(){
+            return Length;
+        }
+        public void setLength(String length)
+        {
+            this.Length= length;
+        }
+
     }
 
     public class Sessions{
@@ -154,6 +236,36 @@ public class MainController {
         public void setHallname(String hall)
         {this.Hallname=hall;}
     }
+
+    @FXML
+    TextField SpectacleAddName;
+    @FXML
+    TextField SpectacleAddGenre;
+    @FXML
+    TextField SpectacleAddLength;
+
+    public void AddSpectacle(){
+        if (SpectacleAddName.getText().equals("") |  SpectacleAddGenre.getText().equals("")| SpectacleAddLength.getText().equals(""))
+        {
+            //debagtext.setText("Пусто");
+            System.out.print("Пусто");
+            return;
+        }
+        try {
+
+            Statement statement = connecttion.createStatement();
+            int done = statement.executeUpdate("INSERT INTO spectacle(name, genre, time_length) VALUE ('"+SpectacleAddName.getText() +"','"+SpectacleAddGenre.getText() +"','"+SpectacleAddLength.getText() + "');");
+            System.out.print(done);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        loadsessionTable();
+        loadsession();
+        LoadSpectacle();
+    }
+
+
+
     @FXML
     ChoiceBox<KeyValuePair>   ChoiseHall;
 
@@ -166,7 +278,7 @@ public class MainController {
     public void add_session(){
         if (ChoiseHall.getValue()== null |  ChoiseName.getValue()== null | sessionaddDate.getValue() == null | sessionaddTime.getText().length()==0)
         {
-            debagtext.setText("Пусто");
+           // debagtext.setText("Пусто");
             return;
         }
         try {
@@ -175,15 +287,17 @@ public class MainController {
             String str = ChoiseHall.getValue().getKey();
             String pattern = "yyyy-MM-dd";
 
-                DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
 
 
             int done = statement.executeUpdate("INSERT INTO session(Data_start,time_start,Hall_id,id_spectacle) VALUE ('"+dateFormatter.format(sessionaddDate.getValue())+"','"+sessionaddTime.getText()+"','"+ChoiseHall.getValue().getKey()+"','"+ChoiseName.getValue().getKey()+"');");
-       System.out.print(done);
+            System.out.print(done);
         }catch (SQLException e){
             e.printStackTrace();
         }
         loadsessionTable();
+        loadsession();
+        LoadSpectacle();
 
     }
 
@@ -194,21 +308,21 @@ public class MainController {
     {
 
 
-            try {
-                Statement statement = connecttion.createStatement();
-                if(DeleHall.getText().length()!=0 ) {
-                    statement.executeUpdate("Delete from Hall where id = '" + DeleHall.getText() + "' ");
-                }else
-                    if (ChoiceDellHall.getValue()!= null)
-                    {
-                        statement.executeUpdate("Delete from Hall where id = '" + ChoiceDellHall.getValue().getKey() + "' ");
+        try {
+            Statement statement = connecttion.createStatement();
+            if(DeleHall.getText().length()!=0 ) {
+                statement.executeUpdate("Delete from Hall where id = '" + DeleHall.getText() + "' ");
+            }else
+            if (ChoiceDellHall.getValue()!= null)
+            {
+                statement.executeUpdate("Delete from Hall where id = '" + ChoiceDellHall.getValue().getKey() + "' ");
 
-                    }
-                    else {return;}
-                System.out.print("OK");
-            }catch (SQLException e){
-                e.printStackTrace();
             }
+            else {return;}
+            System.out.print("OK");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
         loadsessionTable();
         loadsession();
     }
@@ -234,7 +348,7 @@ public class MainController {
             while (res.next())
             {
                 ChoiseHall.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
-           //     ChoiseHall1.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
+                //     ChoiseHall1.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
             }
             Statement statement1 = connecttion.createStatement();
             //connecttion.close();
@@ -265,7 +379,7 @@ public class MainController {
     {
         if (AddHallName.getText().length()==0|HallROW.getText().length()==0|HallSpace.getText().length()==0)
         {
-            debagtext.setText("Пусто");
+          //  debagtext.setText("Пусто");
             return;
         }
         try {

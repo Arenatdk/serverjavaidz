@@ -65,6 +65,35 @@
                            </children></AnchorPane>
                   </content>
                 </Tab>
+                  <Tab text="Спектакли">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="SpectacleTable" layoutX="225.0" layoutY="14.0" prefHeight="481.0" prefWidth="374.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn fx:id="SpectacleID" prefWidth="40.0" text="id" />
+                                  <TableColumn fx:id="SpectacleName" prefWidth="306.0" text="Название" />
+                                    <TableColumn fx:id="SpectacleGenre" minWidth="7.0" prefWidth="182.0" text="Жанр" />
+                                    <TableColumn fx:id="SpectacleLength" minWidth="7.0" prefWidth="116.0" text="Длительность" />
+                                </columns>
+                              </TableView>
+                              <TextField fx:id="SpectacleAddName" layoutX="11.0" layoutY="491.0" prefHeight="26.0" prefWidth="213.0" promptText="Название" />
+                              <TextField fx:id="SpectacleAddGenre" layoutX="227.0" layoutY="491.0" prefHeight="26.0" prefWidth="145.0" promptText="Жанр" />
+                              <TextField fx:id="SpectacleAddLength" layoutX="385.0" layoutY="491.0" prefHeight="26.0" prefWidth="66.0" promptText="Длительность" />
+                              <Button layoutX="460.0" layoutY="491.0" mnemonicParsing="false" onAction="#AddSpectacle" text="Добавить спектакль" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Билеты">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Button layoutX="160.0" layoutY="177.0" mnemonicParsing="false" text="Button" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </Tab>
               </tabs>
             </TabPane>
          </children>
