@@ -61,7 +61,7 @@
                               <Text layoutX="31.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Удалить" />
                               <TextField fx:id="DeleHall" layoutX="27.0" layoutY="325.0" prefHeight="26.0" prefWidth="200.0" promptText="Удалить по ID" />
                               <ChoiceBox fx:id="ChoiceDellHall" layoutX="252.0" layoutY="325.0" prefHeight="26.0" prefWidth="291.0" />
-                              <Button layoutX="470.0" layoutY="394.0" mnemonicParsing="false" onAction="#DellHall" prefHeight="26.0" prefWidth="169.0" text="Удалить зал" />
+                              <Button layoutX="470.0" layoutY="394.0" mnemonicParsing="false" onAction="#DellHallAction" prefHeight="26.0" prefWidth="169.0" text="Удалить зал" />
                            </children></AnchorPane>
                   </content>
                 </Tab>

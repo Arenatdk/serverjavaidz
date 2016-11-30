@@ -184,6 +184,7 @@ public class MainController {
             e.printStackTrace();
         }
         loadsessionTable();
+
     }
 
 
@@ -192,10 +193,10 @@ public class MainController {
     public void DellHallAction()
     {
 
-        {
+
             try {
                 Statement statement = connecttion.createStatement();
-                if(DeleHall.getText().length()!=0 & ChoiceDellHall.getValue()== null) {
+                if(DeleHall.getText().length()!=0 ) {
                     statement.executeUpdate("Delete from Hall where id = '" + DeleHall.getText() + "' ");
                 }else
                     if (ChoiceDellHall.getValue()!= null)
@@ -204,12 +205,12 @@ public class MainController {
 
                     }
                     else {return;}
-                System.out.print(done);
+                System.out.print("OK");
             }catch (SQLException e){
                 e.printStackTrace();
             }
-            loadsessionTable();
-        }
+        loadsessionTable();
+        loadsession();
     }
 
 
