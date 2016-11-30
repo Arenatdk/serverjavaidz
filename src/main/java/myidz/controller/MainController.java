@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.collections.ObservableList;
 
 import javafx.collections.FXCollections;
+import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
 import java.sql.*;
@@ -409,8 +410,120 @@ public class MainController {
         loadsessionTable();
         loadsession();
     }
+    @FXML
+    ChoiceBox<KeyValuePair>   ChoiseSes;
+    public void loadTicket(){
+
+        try {
+            ChoiseSes.getItems().clear();
+
+            Statement statement = connecttion.createStatement();
+            ResultSet res=  statement.executeQuery("SELECT session.id, spectacle.name , session.Data_start, session.time_start, Hall.name from session INNER JOIN Hall on session.Hall_id = Hall.id inner join spectacle on session.id_spectacle=spectacle.id  ORDER BY Data_start,time_start;");
+            while (res.next())
+            {
+                ChoiseSes.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)+" | "+res.getString(3)+" | "+res.getString(4)+" | "+res.getString(5)));
+          //      ChoiseSes.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
+                //     ChoiseHall1.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        row.getItems().clear();
+        place.getItems().clear();
+    }
+    @FXML
+    Text ticketStatus;
+    public boolean getticketStatus(String place )
+    {
+        try {
+            Statement statement = connecttion.createStatement();
+            ResultSet res=  statement.executeQuery("SELECT tickets.id from tickets inner JOIN  HallandSpace on tickets.id_place = HallandSpace.id WHERE tickets.id_session="+ChoiseSes.getValue().getKey()  +" and HallandSpace.row = "+row.getValue().getKey()  +" and HallandSpace.space = "+place+"");
+    //       System.out.print(res.getString(1));
+            if (!res.next()) {
+
+                //ticketStatus.setVisible(true);
+                return true;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
 
+       // ticketStatus.setVisible(false);
+        return false;
+    }
+
+    public boolean getticketStatus()
+    {
+        try {
+            Statement statement = connecttion.createStatement();
+            ResultSet res=  statement.executeQuery("SELECT tickets.id from tickets inner JOIN  HallandSpace on tickets.id_place = HallandSpace.id WHERE tickets.id_session="+ChoiseSes.getValue().getKey()  +" and HallandSpace.row = "+row.getValue().getKey()  +" and HallandSpace.space = "+place.getValue().getKey()+"");
+            //       System.out.print(res.getString(1));
+            if (!res.next()) {
+
+                ticketStatus.setVisible(true);
+                return true;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+
+         ticketStatus.setVisible(false);
+        return false;
+    }
+
+
+    @FXML
+    ChoiceBox<KeyValuePair>   row;
+    public void loadRow(){
+
+        try {
+            row.getItems().clear();
+
+            Statement statement = connecttion.createStatement();
+            ResultSet res=  statement.executeQuery("SELECT HallandSpace.row  from HallandSpace INNER JOIN session on session.Hall_id = HallandSpace.Hall where session.id ='"+ChoiseSes.getValue().getKey() + "' GROUP BY HallandSpace.row;");
+            while (res.next())
+            {
+                row.getItems().add(new KeyValuePair(res.getString(1),res.getString(1)));
+                //
+                //
+                //   ChoiseSes.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
+                //     ChoiseHall1.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        place.getItems().clear();
+    }
+
+    @FXML
+    ChoiceBox<KeyValuePair>   place;
+    public void loadPlace(){
+
+        try {
+
+            place.getItems().clear();
+            Statement statement = connecttion.createStatement();
+            ResultSet res=  statement.executeQuery("SELECT HallandSpace.space  from HallandSpace INNER JOIN session on session.Hall_id = HallandSpace.Hall where session.id ='"+ChoiseSes.getValue().getKey() + "'  and HallandSpace.row = '"+row.getValue().getKey() + "';");
+            while (res.next())
+            {
+                if (getticketStatus(res.getString(1))) {
+                    place.getItems().add(new KeyValuePair(res.getString(1), res.getString(1)));
+                }else
+                {
+                    place.getItems().add(new KeyValuePair(res.getString(1), res.getString(1)+" Занято"));
+                }
+                      //    ChoiseSes.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
+                //     ChoiseHall1.getItems().add(new KeyValuePair(res.getString(1),res.getString(2)));
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
 
 

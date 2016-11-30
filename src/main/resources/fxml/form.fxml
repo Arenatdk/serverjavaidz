@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="564.0" prefWidth="653.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="myidz.controller.MainController">
@@ -89,7 +90,20 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Button layoutX="160.0" layoutY="177.0" mnemonicParsing="false" text="Button" />
+                              <ChoiceBox fx:id="ChoiseSes" layoutX="27.0" layoutY="59.0" onMousePressed="#loadTicket" prefHeight="26.0" prefWidth="573.0" />
+                              <Text layoutX="27.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Расписание" />
+                              <ChoiceBox fx:id="row" layoutX="27.0" layoutY="132.0" onMousePressed="#loadRow" prefWidth="150.0" />
+                              <Text layoutX="26.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ряд" />
+                              <Text layoutX="26.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Место" />
+                              <ChoiceBox fx:id="place" layoutX="27.0" layoutY="218.0" onMousePressed="#loadPlace" prefWidth="150.0" />
+                              <TextField fx:id="price" layoutX="21.0" layoutY="302.0" />
+                              <Text layoutX="27.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Цена" />
+                              <Text fx:id="ticketStatus" fill="RED" layoutX="261.0" layoutY="201.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Занято" visible="false" wrappingWidth="148.7294921875">
+                                 <font>
+                                    <Font name="System Bold" size="33.0" />
+                                 </font>
+                              </Text>
+                              <Button layoutX="304.0" layoutY="338.0" mnemonicParsing="false" text="Button" />
                            </children>
                         </AnchorPane>
                      </content>
