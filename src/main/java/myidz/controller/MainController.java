@@ -460,7 +460,7 @@ public class MainController {
             Statement statement = connecttion.createStatement();
             ResultSet res=  statement.executeQuery("SELECT tickets.id from tickets inner JOIN  HallandSpace on tickets.id_place = HallandSpace.id WHERE tickets.id_session="+ChoiseSes.getValue().getKey()  +" and HallandSpace.row = "+row.getValue().getKey()  +" and HallandSpace.space = "+place.getValue().getKey()+"");
             //       System.out.print(res.getString(1));
-            if (!res.next()) {
+            if (res.next()) {
 
                 ticketStatus.setVisible(true);
                 return true;
@@ -473,8 +473,21 @@ public class MainController {
          ticketStatus.setVisible(false);
         return false;
     }
+ @FXML
+ TextField price;
+    public void BuyTicket()
+    {
+        if (getticketStatus())
+            return;
+        try {
+            Statement statement = connecttion.createStatement();
+            int done = statement.executeUpdate("INSERT INto tickets(id_session, id_place,sale,price) VALUE('"+ChoiseSes.getValue().getKey()+"',(select HallandSpace.id from HallandSpace INNER JOIN session on HallandSpace.Hall = session.Hall_id where session.id="+ChoiseSes.getValue().getKey()+" and HallandSpace.row = "+row.getValue().getKey()+" and HallandSpace.space = "+place.getValue().getKey()+" ),'1','"+price.getText()+"')" );
+            System.out.print(done);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
 
-
+    }
     @FXML
     ChoiceBox<KeyValuePair>   row;
     public void loadRow(){
