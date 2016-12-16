@@ -6,20 +6,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-
+import java.io.*;
 import javafx.collections.ObservableList;
 
 import javafx.collections.FXCollections;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.io.FileWriter;
+
 import java.io.IOException;
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
-//import ;
+import myidz.MainApp;
 
 
 /**
@@ -109,6 +109,7 @@ public class MainController {
         while (res.next())
         {
            // debagtext.setText(debagtext.getText()+res.getString(2)+"\n");
+
             sesionList.add(new Sessions(res.getInt(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5)));
         }
         }catch (SQLException e){
@@ -300,20 +301,55 @@ public class MainController {
         if(SearchFildName.getText().length()==0)LoadSpectacle();
     }
 
-    public void writeFile(){
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.TXT");
-        JFileChooser fc = new JFileChooser();
-        fc.setFileFilter(filter);
-        if ( fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION ) {
-            try ( FileWriter fw = new FileWriter(fc.getSelectedFile()) ) {
-                fw.write("Blah blah blah...");
+
+
+
+    public void writeFile() {
+        try {
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter extensionFilter=new FileChooser.ExtensionFilter("CSV", "*.csv");
+            fileChooser.getExtensionFilters().add(extensionFilter);
+            fileChooser.setTitle("Save Resource File");
+            Stage st = new Stage();
+            File file = fileChooser.showSaveDialog(st);
+            System.out.print("You have saved a file "+file.getName());
+            PrintWriter writer;
+            if (!file.toString().endsWith(".csv")) {
+                 writer = new PrintWriter(file + ".csv");
+            }else
+            {
+                writer = new PrintWriter(file);
             }
-            catch ( IOException e ) {
-                System.out.println("Всё погибло!");
+            Statement statement = connecttion.createStatement();
+            ResultSet res = statement.executeQuery("SELECT `session`.id, spectacle.`name`,Data_start,time_start,Hall.name  FROM session INNER JOIN spectacle on session.id_spectacle = spectacle.id inner JOIN Hall on `session`.Hall_id = Hall.id ORDER BY Data_start,time_start;");
+            while (res.next())
+            {
+                writer.println(res.getInt(1)+";"+res.getString(2)+";"+res.getString(3)+";"+res.getString(4)+";"+res.getString(5));
             }
+            writer.close();
+            st.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @FXML
     TextField SearchFildHall;

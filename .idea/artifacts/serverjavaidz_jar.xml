@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="serverjavaidz:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/serverjavaidz_jar</output-path>
+    <root id="archive" name="serverjavaidz.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="serverjavaidz" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/mysql/mysql-connector-java/5.1.40/mysql-connector-java-5.1.40.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
