@@ -1,6 +1,7 @@
 package myidz.controller;
 
 import com.mysql.fabric.jdbc.FabricMySQLDriver;
+//import com.mysql.fabric.jdbc.FabricMySQLDriver;
 import com.sun.xml.internal.bind.v2.model.core.ID;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,6 +12,7 @@ import javafx.collections.ObservableList;
 
 import javafx.collections.FXCollections;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -45,14 +47,14 @@ public class MainController {
         contentPanel.setVisible(false);
         loginPanel.setVisible(true);
         LoginText.setText("denis");
+
+
         PassText.setText("pass");
 
     }
 
     Connection connecttion;
     public void btlloginEvent(){
-        //LoginText.setText("denis");
-     //   PassText.setText("pass");
 
 
 
@@ -66,7 +68,7 @@ public class MainController {
                 contentPanel.setVisible(true);
                 loginPanel.setVisible(false);
             }
-           // connecttion.close();
+
         }
         catch (SQLException e)
         {
@@ -93,6 +95,87 @@ public class MainController {
     TableColumn<Sessions,String> hallname;
     @FXML
     TextField SearchFildName;
+    @FXML
+    TextArea query2;
+    @FXML
+    TextField maxPriceFild;
+    @FXML
+    TextArea likeTextFild;
+    @FXML
+    TextArea maxfildName;
+    @FXML
+    TextArea VivodHall;
+    public  void testQuery()
+    {
+        try {
+            Statement statement = connecttion.createStatement();
+            ResultSet res=  statement.executeQuery("SELECT max(price) from tickets");
+            res.next();
+               maxPriceFild.setText(res.getString(1));
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        try {
+            Statement statement = connecttion.createStatement();
+            ResultSet res = statement.executeQuery("SELECT `session`.id, spectacle.`name`,Data_start,time_start,Hall.name  FROM session INNER JOIN spectacle on session.id_spectacle = spectacle.id inner JOIN Hall on `session`.Hall_id = Hall.id ORDER BY Data_start,time_start;");
+
+
+
+            while (res.next())
+            {
+                // debagtext.setText(debagtext.getText()+res.getString(2)+"\n");
+
+                query2.setText(query2.getText()+ res.getInt(1)+" | "+res.getString(2)+" | "+res.getString(3)+" | "+res.getString(4)+" | "+res.getString(5)+"\n");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        try {
+            Statement statement = connecttion.createStatement();
+            ResultSet res=  statement.executeQuery("select name from spectacle INNER JOIN session on id_spectacle = spectacle.id   ORDER BY  time_length DESC LIMIT 1");
+            res.next();
+            maxfildName.setText(res.getString(1));
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        try {
+            Statement statement = connecttion.createStatement();
+            ResultSet res = statement.executeQuery("SELECT `session`.id, spectacle.`name`,Data_start,time_start,Hall.name  FROM session INNER JOIN spectacle on session.id_spectacle = spectacle.id inner JOIN Hall on `session`.Hall_id = Hall.id where spectacle.`name` like '%Тер%'");
+
+
+
+            while (res.next())
+            {
+                // debagtext.setText(debagtext.getText()+res.getString(2)+"\n");
+
+                likeTextFild.setText(likeTextFild.getText()+ res.getInt(1)+" | "+res.getString(2)+" | "+res.getString(3)+" | "+res.getString(4)+" | "+res.getString(5)+"\n");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        try {
+            Statement statement = connecttion.createStatement();
+            ResultSet res = statement.executeQuery("Select * from Hall");
+
+
+
+            while (res.next())
+            {
+                // debagtext.setText(debagtext.getText()+res.getString(2)+"\n");
+
+                VivodHall.setText(VivodHall.getText()+ res.getInt(1)+" | "+res.getString(2)+"\n");
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+ System.out.print("asdasda");
+    }
+
+
+
     public void loadsessionTable(){
         ObservableList<Sessions> sesionList = FXCollections.observableArrayList();
         IDcol.setCellValueFactory(new PropertyValueFactory<Sessions, Integer>("ID"));

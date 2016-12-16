@@ -41,7 +41,7 @@
                                     <Image url="@/fxml/Buy-Tickets.png" />
                                  </image>
                               </ImageView>
-                              <Label layoutX="-26.0" layoutY="54.0" rotate="90.0" text="&lt;Навигация" textFill="RED">
+                             <Label layoutX="-26.0" layoutY="54.0" rotate="90.0" text="&lt;Навигация" textFill="RED">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -135,7 +135,16 @@
                   </Tab>
                   <Tab text="Запросы">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Button layoutX="541.0" layoutY="483.0" mnemonicParsing="false" onMouseClicked="#testQuery" text="Проверить" />
+                              <TextField fx:id="maxPriceFild" layoutX="18.0" layoutY="11.0" prefHeight="26.0" prefWidth="246.0" promptText="SELECT max(price) from tickets" />
+                              <TextArea fx:id="query2" layoutX="16.0" layoutY="52.0" prefHeight="94.0" prefWidth="622.0" promptText="SELECT `session`.id, spectacle.`name`,Data_start,time_start,Hall.name  FROM session INNER JOIN spectacle on session.id_spectacle = spectacle.id inner JOIN Hall on `session`.Hall_id = Hall.id ORDER BY Data_start,time_start" />
+                              <TextArea fx:id="maxfildName" layoutX="15.0" layoutY="153.0" prefHeight="26.0" prefWidth="624.0" promptText="select name from spectacle INNER JOIN session on id_spectacle = spectacle.id   ORDER BY  time_length DESC LIMIT 1" />
+                              <TextArea fx:id="likeTextFild" layoutX="15.0" layoutY="204.0" prefHeight="110.0" prefWidth="624.0" promptText="SELECT `session`.id, spectacle.`name`,Data_start,time_start,Hall.name  FROM session INNER JOIN spectacle on session.id_spectacle = spectacle.id inner JOIN Hall on `session`.Hall_id = Hall.id where spectacle.`name` like 'Тер'" />
+                              <TextArea fx:id="VivodHall" layoutX="18.0" layoutY="339.0" prefHeight="105.0" prefWidth="625.0" promptText="Select * from Hall" />
+                           </children>
+                        </AnchorPane>
                      </content>
                   </Tab>
               </tabs>
