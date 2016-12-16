@@ -47,6 +47,7 @@
                                  </font>
                               </Label>
                               <TextArea layoutX="35.0" layoutY="148.0" prefHeight="69.0" prefWidth="440.0" text="Тема: Автоматизация продажи театральных билетов. " wrapText="true" />
+                              <Button layoutX="79.0" layoutY="240.0" mnemonicParsing="false" onMouseClicked="#writeFile" prefHeight="139.0" prefWidth="458.0" text="Сохранить расписание" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -55,7 +56,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="523.0" prefWidth="585.0">
                            <children>
-                              <TableView fx:id="tabls" editable="true" layoutX="10.0" layoutY="27.0" prefHeight="429.0" prefWidth="585.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="tabls" editable="true" layoutX="10.0" layoutY="27.0" prefHeight="429.0" prefWidth="585.0" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                                 <columns>
                                   <TableColumn fx:id="IDcol" prefWidth="36.0" text="ID" />
                                   <TableColumn fx:id="nameCol" prefWidth="152.0" text="Название" />
@@ -69,6 +70,8 @@
                               <TextField fx:id="sessionaddTime" layoutX="175.0" layoutY="491.0" prefHeight="26.0" prefWidth="88.0" promptText="Время" text="16:20" AnchorPane.bottomAnchor="14.0" />
                               <ChoiceBox fx:id="ChoiseHall" layoutX="393.0" layoutY="491.0" prefWidth="150.0" AnchorPane.bottomAnchor="14.0" />
                               <Button layoutX="549.0" layoutY="491.0" mnemonicParsing="false" onAction="#add_session" text="Добавить" AnchorPane.bottomAnchor="14.0" />
+                              <TextField fx:id="SearchFildName" layoutX="36.0" layoutY="2.0" onKeyReleased="#FSearchFildName" prefHeight="26.0" prefWidth="151.0" promptText="Поиск по названию" />
+                              <TextField fx:id="SearchFildHall" layoutX="381.0" layoutY="2.0" onKeyReleased="#FSearchFildHall" prefHeight="26.0" prefWidth="193.0" promptText="Поиск по залу" />
                            </children></AnchorPane>
                   </content>
                 </Tab>
@@ -125,9 +128,14 @@
                                     <Font name="System Bold" size="33.0" />
                                  </font>
                               </Text>
-                              <Button layoutX="327.0" layoutY="340.0" mnemonicParsing="false" onAction="#BuyTicket" text="Купить" />
+                              <Button layoutX="327.0" layoutY="340.0" mnemonicParsing="false" onAction="#BuyTicket" text="Продать" />
                            </children>
                         </AnchorPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Запросы">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                      </content>
                   </Tab>
               </tabs>

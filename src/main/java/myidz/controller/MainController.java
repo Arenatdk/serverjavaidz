@@ -13,6 +13,10 @@ import javafx.collections.FXCollections;
 import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
 //import ;
@@ -87,6 +91,8 @@ public class MainController {
     TableColumn<Sessions,String> datastart;
     @FXML
     TableColumn<Sessions,String> hallname;
+    @FXML
+    TextField SearchFildName;
     public void loadsessionTable(){
         ObservableList<Sessions> sesionList = FXCollections.observableArrayList();
         IDcol.setCellValueFactory(new PropertyValueFactory<Sessions, Integer>("ID"));
@@ -96,7 +102,10 @@ public class MainController {
         hallname.setCellValueFactory(new PropertyValueFactory<Sessions, String>("Hallname"));
         try {
             Statement statement = connecttion.createStatement();
-        ResultSet res=  statement.executeQuery("SELECT `session`.id, spectacle.`name`,Data_start,time_start,Hall.name  FROM session INNER JOIN spectacle on session.id_spectacle = spectacle.id inner JOIN Hall on `session`.Hall_id = Hall.id ORDER BY Data_start,time_start;");
+            ResultSet res = statement.executeQuery("SELECT `session`.id, spectacle.`name`,Data_start,time_start,Hall.name  FROM session INNER JOIN spectacle on session.id_spectacle = spectacle.id inner JOIN Hall on `session`.Hall_id = Hall.id ORDER BY Data_start,time_start;");
+
+
+
         while (res.next())
         {
            // debagtext.setText(debagtext.getText()+res.getString(2)+"\n");
@@ -265,7 +274,74 @@ public class MainController {
         LoadSpectacle();
     }
 
+    public void FSearchFildName(){
+        ObservableList<Sessions> sesionList = FXCollections.observableArrayList();
+        IDcol.setCellValueFactory(new PropertyValueFactory<Sessions, Integer>("ID"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<Sessions, String>("Name"));
+        timestart.setCellValueFactory(new PropertyValueFactory<Sessions, String>("Data_start"));
+        datastart.setCellValueFactory(new PropertyValueFactory<Sessions, String>("Time_start"));
+        hallname.setCellValueFactory(new PropertyValueFactory<Sessions, String>("Hallname"));
+        try {
+            Statement statement = connecttion.createStatement();
+            ResultSet res = statement.executeQuery("SELECT `session`.id, spectacle.`name`,Data_start,time_start,Hall.name  FROM session INNER JOIN spectacle on session.id_spectacle = spectacle.id inner JOIN Hall on `session`.Hall_id = Hall.id where spectacle.`name` LIKE  '%" +SearchFildName.getText() +"%' ORDER BY Data_start,time_start;");
 
+
+
+            while (res.next())
+            {
+                // debagtext.setText(debagtext.getText()+res.getString(2)+"\n");
+                sesionList.add(new Sessions(res.getInt(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5)));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        System.out.print("Поиск ");
+        tabls.setItems(sesionList);
+        if(SearchFildName.getText().length()==0)LoadSpectacle();
+    }
+
+    public void writeFile(){
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.TXT");
+        JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(filter);
+        if ( fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION ) {
+            try ( FileWriter fw = new FileWriter(fc.getSelectedFile()) ) {
+                fw.write("Blah blah blah...");
+            }
+            catch ( IOException e ) {
+                System.out.println("Всё погибло!");
+            }
+        }
+
+    }
+
+    @FXML
+    TextField SearchFildHall;
+    public void FSearchFildHall(){
+        ObservableList<Sessions> sesionList = FXCollections.observableArrayList();
+        IDcol.setCellValueFactory(new PropertyValueFactory<Sessions, Integer>("ID"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<Sessions, String>("Name"));
+        timestart.setCellValueFactory(new PropertyValueFactory<Sessions, String>("Data_start"));
+        datastart.setCellValueFactory(new PropertyValueFactory<Sessions, String>("Time_start"));
+        hallname.setCellValueFactory(new PropertyValueFactory<Sessions, String>("Hallname"));
+        try {
+            Statement statement = connecttion.createStatement();
+            ResultSet res = statement.executeQuery("SELECT `session`.id, spectacle.`name`,Data_start,time_start,Hall.name  FROM session INNER JOIN spectacle on session.id_spectacle = spectacle.id inner JOIN Hall on `session`.Hall_id = Hall.id where Hall.name LIKE  '%" +SearchFildHall.getText() +"%' ORDER BY Data_start,time_start;");
+
+
+
+            while (res.next())
+            {
+                // debagtext.setText(debagtext.getText()+res.getString(2)+"\n");
+                sesionList.add(new Sessions(res.getInt(1),res.getString(2),res.getString(3),res.getString(4),res.getString(5)));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        System.out.print("Поиск ");
+        tabls.setItems(sesionList);
+        if(SearchFildHall.getText().length()==0)LoadSpectacle();
+    }
 
     @FXML
     ChoiceBox<KeyValuePair>   ChoiseHall;

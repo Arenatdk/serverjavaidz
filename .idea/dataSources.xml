@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="myticket@localhost" uuid="af22a986-bd2e-40bf-896a-4c839d166677">
+    <data-source source="LOCAL" name="" uuid="8db1a891-ad38-4d18-bff7-a1cfc32e4cc9">
+      <driver-ref>derby.embedded</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
+    </data-source>
+    <data-source source="LOCAL" name="myticket@localhost" uuid="c6e32acc-c5ba-4596-9153-d53c761fc3f9">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
